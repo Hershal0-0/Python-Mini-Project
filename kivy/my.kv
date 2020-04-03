@@ -1,0 +1,70 @@
+
+<New>:
+    clock_label:clock_id
+    GridLayout:
+        cols:1
+        size:root.width,root.height
+        pos:0,0
+
+
+        ClockLabel:
+            id:clock_id
+            outline_color:(0.5,0.5,1)
+            outline_width:"2px"
+            font_size:"100px"
+        GridLayout:
+            cols:2
+
+            Label:
+                text:"Alarm1"
+                width:0.4
+               
+            BoxLayout:
+                Switch:
+                    active: False
+                    on_active: root.switch_toggle(self,self.active,pos=0)
+                    
+
+            Label:
+                text:"Alarm2"
+                width:0.4
+               
+            BoxLayout:
+                Switch:
+                    active: False
+                    on_active: root.switch_toggle(self,self.active,pos=1)
+                    
+
+            Label:
+                text:"Alarm3"
+                width:0.4
+               
+            BoxLayout:
+                Switch:
+                    active: False
+                    on_active: root.switch_toggle(self,self.active,pos=2)
+                    
+
+            Label:
+                text:"Alarm4"
+                width:0.4
+               
+            BoxLayout:
+                Switch:
+                    active: False
+                    on_active: root.switch_toggle(self,self.active,pos=3)
+                    
+
+
+            Label:
+                text:"Alarm5"
+                width:0.4
+               
+            BoxLayout:
+                Switch:
+                    active: False
+                    on_active: root.switch_toggle(self,self.active,pos=4)
+                    
+
+
+    
