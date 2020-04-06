@@ -1,0 +1,6 @@
+03:28 PM,1.mp3,off
+02:32 PM,alarm3.mp3,off
+04:02 PM,default.wav,off
+12:13 PM,default.wav,off
+10:27 PM,default.wav,off
+03:25 PM,1.mp3,on

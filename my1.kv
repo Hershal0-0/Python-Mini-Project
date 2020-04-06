@@ -1,0 +1,257 @@
+<New>:
+    canvas.before:
+        Color:
+            rgba: 0, 0, 0, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    clock_label:clock_id
+    GridLayout:
+        cols:1
+        size:root.width,root.height
+        pos:0,0
+
+        ClockLabel:
+            id:clock_id
+            outline_color:(0.5,0.5,1)
+            outline_width:"2px"
+            font_size:"100px"
+        GridLayout:
+            cols:3
+
+            Label:
+                text:root.text_label1
+                width:0.75
+            Button:
+                text:"Setting"
+                on_press:
+                    root.manager.transition.direction="left"
+                    root.manager.current="Setting"
+                    root.turn_update(1)
+            Switch:
+                active : root.get_switch_state(id=1)
+                on_active : root.toogle_status(self, self.active, id=1)
+
+            Label:
+                id:label_2
+                text:root.text_label2
+            Button:
+                text:"Setting"
+                on_press:
+                    root.manager.transition.direction="left"
+                    root.manager.current="Setting"
+                    root.turn_update(2)
+            Switch:
+                active : root.get_switch_state(id=2)
+                on_active : root.toogle_status(self, self.active, id=2)
+
+            Label:
+                id:label_3
+                text:root.text_label3
+            Button:
+                text:"Setting"
+                on_press:
+                    root.manager.transition.direction="left"
+                    root.manager.current="Setting"
+                    root.turn_update(3)
+            Switch:
+                active : root.get_switch_state(id=3)
+                on_active : root.toogle_status(self, self.active, id=3)
+
+            Label:
+                id:label_4
+                text:root.text_label4
+            Button:
+                text:"Setting"
+                on_press:
+                    root.manager.transition.direction="left"
+                    root.manager.current="Setting"
+                    root.turn_update(4)
+            Switch:
+                active : root.get_switch_state(id=4)
+                on_active : root.toogle_status(self, self.active, id=4)
+
+            Label:
+                id:label_5
+                text:root.text_label5
+
+            Button:
+                text:"Setting"
+                on_press:
+                    root.manager.transition.direction="left"
+                    root.manager.current="Captcha"
+                    root.turn_update(5)
+            Switch:
+                active : root.get_switch_state(id=5)
+                on_active : root.toogle_status(self, self.active, id=5)
+
+<Setting>:
+    canvas.before:
+        Color:
+            rgba: 0, 0, 0, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    hour_:hour
+    minute_:minute
+    ampm_:ampm
+    soundname_:soundname
+    GridLayout:
+        cols:1
+        GridLayout:
+            cols:2
+            Label:
+                text:"Hours"
+            TextInput:
+                id:hour
+                multiline:False
+                
+            Label:
+                text:"Minutes"
+            TextInput:
+                id:minute
+                multiline:False
+
+            Label:
+                text:"AM/PM"
+            TextInput:
+                id:ampm
+                multiline:False
+
+            Label:
+                text:
+                    '''Select Sound for alarm.
+                    Enter a value between 1 and 5
+                    select respective sound'''
+            TextInput:
+                id : soundname
+                text : "1"
+                multiline:False
+
+        Button:
+            text:"Submit Selection"
+            on_press:
+                root.manager.transition.direction="right"
+                root.manager.current="New"
+                root.alarm_set()
+            on_release:
+                hour.text=""
+                minute.text=""
+                ampm.text=""
+
+<Selection>:
+    canvas.before:
+        Color:
+            rgba: 0, 0, 0, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    GridLayout:
+        size:root.width,root.height/2
+        cols:1
+        Button:
+            text:"Captcha"
+            on_press:
+                root.manager.current="Captcha"
+                root.manager.transition.direction="right"
+        Button:
+            text:"Quiz"
+            on_press:
+                root.manager.current="Quiz"
+                root.manager.transition.direction="right"
+
+        Button:
+            text : "Snooze"
+            on_press:
+                root.snooze_button()
+
+
+<Captcha>:
+    GridLayout:
+
+        cols : 1
+        Label:
+            id : captcha
+            text: root.get_captcha()
+
+        TextInput:
+            id : text_input
+            hint_text: "Enter above captcha"
+
+        BoxLayout:
+            Label:
+
+        GridLayout:
+            cols:2
+
+            Button:
+                text : "Snooze"
+                on_press:
+                    root.snooze_button()
+
+            Button:
+                text : "Try Quiz"
+                on_press:
+                    root.manager.current = "Quiz"
+                    root.manager.transition.direction = "right"
+
+
+        BoxLayout:    
+            Button:
+                text : "Validate captcha"
+                on_press : 
+                    root.manager.current = root.get_screen(root.validate_captcha())
+
+<Quiz>:
+    canvas.before:
+        Color:
+            rgba: 0, 0, 0, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    on_pre_enter : root.new_quiz()
+    GridLayout:
+        cols : 1
+        
+        Label:
+            text : root.quiz_counter
+
+        Label:
+            text : root.quiz_question
+        
+        GridLayout:
+            cols : 2
+            Button:
+                text : root.option1
+                on_press:
+                    root.manager.current = root.validate_quiz(root.validate(0))
+            Button:
+                text : root.option2
+                on_press:
+                    root.manager.current = root.validate_quiz(root.validate(1))               
+            Button:
+                text : root.option3
+                on_press:
+                    root.manager.current = root.validate_quiz(root.validate(2))
+            Button:
+                text : root.option4
+                on_press:
+                    root.manager.current = root.validate_quiz(root.validate(3))
+        
+        BoxLayout:
+            cols : 1
+
+            Button:
+                text : "Try Captcha"
+                on_press:
+                    root.manager.transition.direction = "left"
+                    root.manager.current = "Captcha"
+
+            Button:
+                text : "Snooze"
+                on_press:
+                    root.snooze_button()
